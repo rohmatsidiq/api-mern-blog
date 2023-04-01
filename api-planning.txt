@@ -1,0 +1,79 @@
+Standard API
+
+{root.api}/{version}/{grouping}/{endpoint}
+Contoh:
+http://api.dieze.com/v1/auth/login
+
+Standar Status Respon
+200 - Ok                        --> Call API Success
+201 - CREATED                   --> Post Success
+400 - BAD REQUEST               --> Error on Client Side (Bisa input yang salah, dll)
+401 - UNAUTHORIZED              --> User not authorized to the request
+403 - FORBIDDEN                 --> User not allowed to access
+404 - NOT FOUND                 --> Request end point not FOUND
+500 - INTERNAL SERVER ERROR     --> Error on server side
+502 - BAD GATEWAY               --> Invalid response From Another Request
+
+GROUP : Authentication
+[1] - Register ===========================================================
+{root.api}/{version}/auth/register
+
+req:
+{
+    "name" : "test",
+    "email" : "test@mail.com",
+    "password" : "12345"
+}
+
+res:
+{
+    "message" : "Register Success",
+    "data" : {
+        "name" : "test",
+        "email" : "test@mail.com",
+        "password" : "12345"
+    }
+}
+
+err-respose:
+400 - Input yang anda masukkan tidak valid
+
+
+[2] - Login ===========================================================
+{root.api}/{version}/auth/login
+
+
+GROUP : Blog
+[1] - Create blog post ===========================================================
+{root.api}/{version}/blog/post
+req:
+{
+    "title" : "Title Blog",
+    "image" : "img.jpg",
+    "body" : "Lorem ipsum"
+}
+
+res:
+{
+    "message" : "Create Blog Post Success",
+    "data" : {
+        "post_id" : 1,
+        "title" : "Title Blog",
+        "image" : "img.jpg",
+        "body" : "Lorem ipsum",
+        "created_at" : "01/03/2023",
+        "author" : {
+            "uuid" : 1,
+            "name" : "Testing"
+        }
+    }
+}
+
+err-respose:
+201 - Blog Post berhasil dibuat
+400 - Input yang anda masukkan tidak valid
+
+
+[2] - Get blog post 
+[3] - Update blog post
+[4] - Delete blog post

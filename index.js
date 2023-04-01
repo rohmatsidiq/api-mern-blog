@@ -1,12 +1,31 @@
 const express = require("express");
-
+const bodyParser = require("body-parser");
 const app = express();
+const authRoutes = require("./src/routes/auth");
+const blogRoutes = require("./src/routes/blog");
 
-// membuat sebuah perintah
-app.use(() => {
-  console.log("Hello Server");
-  console.log("Hello lagi")
+// buat midleware
+app.use(bodyParser.json()); // karena kita menggunakan type json
+
+// mengatasi error CORS ORIGIN
+app.use((req, res, next) => {
+  // diparameter kedua, tulis url yang boleh mengakses api kita
+  res.setHeader("Access-Control-Allow-Origin", "*");
+
+  // izinkan method apa saja yang boleh mengakses api kita
+  res.setHeader(
+    "Access-Control-Allow-Methods",
+    "GET, POST, PUT, PATCH, DELETE, OPTIONS"
+  );
+
+  // izinkan header apa saja
+  // authorization untuk oengiriman token ke api kita
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  next();
 });
 
-// membuat membuat server saay berjalan dimana
+app.use("/v1/auth", authRoutes);
+app.use("/v1/blog", blogRoutes);
+
+// membuat membuat server berjalan dimana
 app.listen(4000);
